@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philippine Artistry Art Gallery</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Cinzel:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #5d4037;
+            --secondary-color: #efebe9;
+            --accent-color: #ffcc80;
+            --highlight-color: #bf360c;
+            --text-color: #3e2723;
+            --bg-overlay: rgba(244, 236, 207, 0.85);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+            url('https://cdn.luxatic.com/wp-content/uploads/2019/02/Vincent-van-Gogh.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .nav {
+            background-color: var(--primary-color);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover { color: var(--accent-color); }
+
+        .side-menu {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(93, 64, 55, 0.9);
+            padding: 20px 10px;
+            border-radius: 0 10px 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .side-link {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px 5px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .side-link:hover { color: var(--accent-color); border-left: 3px solid var(--accent-color); }
+
+        main { 
+            flex: 1; 
+            margin-left: 60px; 
+        }
+
+        .page-section {
+            display: none;
+            padding: 40px 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page-section.active { display: block; }
+            @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .home-hero {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .home-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            color: #2c3e50;
+        }
+
+        .home-subtitle {
+            font-style: italic;
+            color: #6d4c41;
+            margin-bottom: 20px;
+        }
+
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #a1887f;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .content-card {
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: rgba(255,255,255,0.85); 
+            padding: 30px; 
+            border-radius: 15px;
+        }
+
+        .section-header {
+            font-family: 'Bangers', cursive;
+            font-size: 3rem;
+            text-align: center;
+            color: var(--highlight-color);
+            text-shadow: 2px 2px 0px var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        .tutorial-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        .tutorial-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .tutorial-link:hover .tutorial-row {
+            transform: scale(1.02);
+            border-color: var(--accent-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 240px;
+            flex-shrink: 0;
+        }
+
+        .tutorial-thumb { 
+            width: 100%; 
+            border-radius: 8px; 
+            display: block; 
+        }
+
+        .video-container::after {
+            content: '▶';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(93, 64, 55, 0.8);
+            color: white;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            font-size: 1.5rem; 
+            opacity: 0.9;
+        }
+
+        .tutorial-card-title {
+            color: var(--highlight-color);
+            margin-bottom: 5px;
+        }
+
+        .history-container {
+            max-width: 1100px; 
+            margin: 0 auto;
+        }
+
+        .artist-card {
+            display: grid;
+            grid-template-columns: 180px 1fr 300px;
+            align-items: flex-start;
+            gap: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            margin-bottom: 50px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .profile-circle {
+            width: 150px; height: 150px; 
+            border-radius: 50%; 
+            overflow: hidden; 
+            border: 5px solid var(--primary-color);
+            position: sticky; 
+            top: 100px;
+        }
+
+        .profile-circle img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+                
+        .bio-content h2 { 
+            font-family: 'Cinzel', serif; 
+            color: #4e342e; 
+            margin-bottom: 15px; 
+            font-size: 2rem; 
+        }
+                
+        .bio-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--primary-color);
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #d7ccc8;
+        }
+
+        .bio-text p { margin-bottom: 12px; }
+        .bio-text::-webkit-scrollbar { width: 5px; }
+        .bio-text::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
+
+        .digital h2 { font-family: 'Bangers', cursive; color: var(--highlight-color); font-size: 2.2rem; }
+                
+        .art-square { 
+            width: 100%; 
+            height: 250px; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 3px solid #fff; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: sticky; 
+            top: 100px;
+        }
+                
+        .art-square img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(93, 64, 55, 0.1);
+            border-top: 1px solid #d7ccc8;
+        }
+
+        @media (max-width: 1000px) {
+            .artist-card { grid-template-columns: 1fr; text-align: center; }
+            .profile-circle, .art-square { margin: 0 auto; position: static; }
+            .bio-text { padding-right: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <ul class="nav-list">
+        <li><span class="nav-link" onclick="showPage('home')">Home</span></li>
+        <li><span class="nav-link" onclick="showPage('tutorials')">Tutorials</span></li>
+        <li><span class="nav-link" onclick="showPage('history')">Arts & History</span></li>
+    </ul>
+</nav>
+
+<aside class="side-menu">
+    <div class="side-link" onclick="showPage('home')">Home</div>
+    <div class="side-link" onclick="showPage('tutorials')">Tutorials</div>
+    <div class="side-link" onclick="showPage('history')">History</div>
+</aside>
+
+<main>
+
+    <section id="home" class="page-section active">
+        <div class="home-hero">
+            <h1 class="home-title">Welcome!</h1>
+            <h2 class="home-subtitle">Philippine Artistry Art Gallery</h2>
+
+            <div class="login-card">
+                <h3 class="login-header">Log-in</h3>
+                <form id="loginForm">
+                    <input type="text" id="user" class="form-input" placeholder="Username" required>
+                    <input type="password" id="pass" class="form-input" placeholder="Password" required>
+                    <button type="submit" class="btn-submit">Log In</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="tutorials" class="page-section">
+        <div class="content-card">
+            <h1 class="section-header">Improve Your Skills</h1>
+            
+            <a href="https://youtu.be/aMlTKtmczzM" target="_blank" class="tutorial-link">
+                <div class="tutorial-row">
+                    <div class="video-container"><img src="https://img.youtube.com/vi/aMlTKtmczzM/mqdefault.jpg" class="tutorial-thumb" alt="Drawing Tutorial"></div>
+                    <div>
+                        <h3 class="tutorial-card-title">Foundations for Solid Drawing</h3>
+                        <p>Master the essentials of line, shape, and form.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/pAK0cvVQr_4" target="_blank" class="tutorial-link">
+                <div class="tutorial-row">
+                    <div class="video-container"><img src="https://img.youtube.com/vi/pAK0cvVQr_4/mqdefault.jpg" class="tutorial-thumb" alt="Color Theory Tutorial"></div>
+                    <div>
+                        <h3 class="tutorial-card-title">Color Theory & Harmony</h3>
+                        <p>Learn how Values and Hues interact to set the mood.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/qq8SO9tMI8k" target="_blank" class="tutorial-link">
+                <div class="tutorial-row">
+                    <div class="video-container"><img src="https://img.youtube.com/vi/qq8SO9tMI8k/mqdefault.jpg" class="tutorial-thumb" alt="Perspective Tutorial"></div>
+                    <div>
+                        <h3 class="tutorial-card-title">Perspective for Beginners</h3>
+                        <p>Use horizon lines and vanishing points for professional depth.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section id="history" class="page-section">
+        <div class="history-container">
+            <h1 class="section-header">Filipino Art Masters</h1>
+
+            <article class="artist-card">
+                <div class="profile-circle"><img src="https://cdn.tatlerasia.com/tatlerasia/i/2021/10/12091512-18159359816-92de92d368-o_cover_1199x1363.jpg" alt="Fernando Amorsolo"></div>
+                <div class="bio-content">
+                    <h2>Fernando Amorsolo</h2>
+                    <div class="bio-text">
+                        <p>Fernando Amorsolo was the first-ever National Artist of the Philippines, often called the "Grand Old Man of Philippine Art." Born in 1892, he developed a unique style that defined the country's visual identity for decades.</p>
+                        <p>He is most famous for his mastery of light, specifically the "backlighting" technique. His canvases seem to glow with the warmth of the tropical sun, highlighting the vibrant colors of rural Philippine landscapes.</p>
+                        <p>Amorsolo’s work focused on idealized Filipino life. He painted smiling dalagas, hardworking farmers, and festive barrio scenes, choosing to celebrate the beauty of the nation even during difficult historical times.</p>
+                        <p>Beyond landscapes, he was a prolific portraitist. He captured the likenesses of several Philippine presidents and prominent figures with incredible detail and grace, earning him respect across the globe.</p>
+                        <p>Today, his legacy lives on in the National Museum and private collections. His influence remains a cornerstone for every traditional artist in the Philippines, teaching them to find beauty in the golden hour.</p>
+                    </div>
+                </div>
+                <div class="art-square"><img src="https://cdn.kahimyang.com/resources/Amorsolo/under_the_mango_tree.webp" alt="Amorsolo Art"></div>
+            </article>
+
+            <article class="artist-card">
+                <div class="profile-circle"><img src="https://live.staticflickr.com/337/19361081819_35b3352458_b.jpg" alt="Juan Luna"></div>
+                <div class="bio-content">
+                    <h2>Juan Luna</h2>
+                    <div class="bio-text">
+                        <p>Juan Luna was a giant of 19th-century art, proving to the world that Filipinos were equal in talent to their European colonizers. He was a master of the academic style and a fierce patriot.</p>
+                        <p>His greatest triumph came in 1884 when he won the Gold Medal at the Exposición Nacional de Bellas Artes in Madrid for his massive work, the "Spoliarium," which remains the most famous painting in Philippine history.</p>
+                        <p>Luna’s art was often dramatic and intense. He used bold strokes and dark, moody colors to convey powerful emotions and social allegories about the suffering of his people under colonial rule.</p>
+                        <p>He was deeply involved in the Propaganda Movement alongside Jose Rizal. His artistic success provided a cultural foundation for the Philippine revolution, showing that the "Indio" was capable of international excellence.</p>
+                        <p>Despite a personal life marked by tragedy and controversy, Luna remains a symbol of Filipino pride. His technical skill in composition and anatomy set a high bar for generations of classical painters to follow.</p>
+                    </div>
+                </div>
+                <div class="art-square"><img src="https://lifestyle.inquirer.net/files/2018/09/Boceto-Juan-Luna.jpg" alt="Juan Luna Art"></div>
+            </article>
+
+            <article class="artist-card digital">
+                <div class="profile-circle"><img src="https://tse1.mm.bing.net/th/id/OIP.gugCeKh-YiQ7JHLbVF-E2QHaHa?pid=Api&h=220&P=0" alt="Gelonimation"></div>
+                <div class="bio-content">
+                    <h2>Gelonimation</h2>
+                    <div class="bio-text">
+                        <p>Gelonimation is a pioneer of the "Storytime Animation" genre in the Philippines. He transitioned from traditional drawing to digital media to share relatable, comedic stories about Filipino youth culture.</p>
+                        <p>His content often centers on the everyday struggles of students—from strict teachers to school crushes—resonating with millions of viewers who see their own lives reflected in his cartoons.</p>
+                        <p>What makes Gelonimation unique is his "Pinoy-centric" humor. He uses local slang, common household tropes, and iconic Filipino situations to create a sense of community among his massive online following.</p>
+                        <p>As a digital artist, he demonstrates the power of accessibility. By using modern tools and social media platforms like YouTube and Facebook, he has bypassed traditional gallery systems to reach his audience directly.</p>
+                        <p>He serves as an inspiration for the next generation of digital creators, proving that you don't need a huge studio to tell great stories—just a creative mind and a tablet.</p>
+                    </div>
+                </div>
+                <div class="art-square"><img src="https://gelonimation.solutionsdevhive.com/Thumbnails/Untitled1127_20250213220233.jpg" alt="Gelonimation Art"></div>
+            </article>
+
+            <article class="artist-card digital">
+                <div class="profile-circle"><img src="https://scontent.fmnl4-5.fna.fbcdn.net/v/t39.30808-6/448891135_489095233477346_2690958212103334205_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeH9S7JUCDAPpnjGHDGd42WczJUI9lO9ZszMlQj2U71mzG2Qw9FPAC9HIpCmUJfqTnTdrtbMJXibgFtoiezX_UWB&_nc_ohc=25MxzzD7v4wQ7kNvwHBgIbI&_nc_oc=Adla2Mg_Y7NUfTcJVxwbhbQRBVcfV-NldgqcF2tnSj6Q8CjYWvlcSPMXpzIKr7pTbko&_nc_zt=23&_nc_ht=scontent.fmnl4-5.fna&_nc_gid=RT-ULGAyOy0scAeyK0p_HQ&_nc_ss=8&oh=00_AfwOXRSAaCYhNZAHyUPNy7psh1fLDIYCKahv_7ESNj0bMw&oe=69BDC861" alt="Abe Animated"></div>
+                <div class="bio-content">
+                    <h2>Abe Animated</h2>
+                    <div class="bio-text">
+                        <p>Abe Animated is a prominent figure in the local independent animation scene, known for blending narrative depth with engaging, clean character designs.</p>
+                        <p>Her work often explores "Akala Ko" (I Thought) moments—relatable Filipino struggles like finding frozen fish in an ice cream container, or traveling to school only to find out class is suspended. These stories resonate deeply with a generation of youth navigating the quirks of daily life in the Philippines.</p>
+                        <p>Technically, Abe is recognized for her smooth frame-by-frame animation, setting a high standard for solo creators. She frequently collaborates with other Pinoy animators like CellyFunArt and Dorianimation, fostering a supportive community for digital artists.</p>
+                        <p>By sharing "Behind the Scenes" content and tutorials, she has inspired many aspiring artists to bridge the gap between imagination and digital reality, proving that modern storytelling is as much about heart as it is about technology.</p>
+                    </div>
+                </div>
+                <div class="art-square"><img src="https://img.youtube.com/vi/zn7HYO9xwSk/maxresdefault.jpg" alt="Abe Animated Art"></div>
+            </article>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p><i>"Art isn't all about the details but on how you show your imagination"</i></p>
+    <p style="font-size: 0.8rem; margin-top: 5px;">contact@philippineartistry.com | 09989980979</p>
+</footer>
+
+<script>
+    function showPage(pageId) {
+        document.querySelectorAll('.page-section').forEach(section => {
+            section.classList.remove('active');
+        });
+                
+        document.getElementById(pageId).classList.add('active');
+                
+        document.querySelectorAll('.nav-link').forEach(link => {
+            let isMatch = link.textContent.toLowerCase().includes(pageId) || 
+            (pageId == 'history' && link.textContent.includes('Arts'));
+            link.style.color = isMatch ? '#ffcc80' : '#efebe9';
+        });
+
+        window.scrollTo(0,0);
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('user').value;
+        const password = document.getElementById('pass').value;
+                
+        if (username === 'admin' && password === 'password') {
+            showPage('history'); 
+        } else {
+            alert('Incorrect credentials. Try admin/password.');
+        }
+    });
+</script>
+</body>
+</html>
